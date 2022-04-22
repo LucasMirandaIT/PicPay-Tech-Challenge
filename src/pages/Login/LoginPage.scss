@@ -1,0 +1,58 @@
+.login-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  .login-box {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .form {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      .product-container {
+        margin-bottom: 24px;
+        display: inline-grid;
+        .welcome-text {
+          color: #333333;
+          font-weight: 600;
+          font-size: 30px;
+          line-height: 36px;
+          /* font-family: "Montserrat"; */
+        }
+      }
+    }
+  }
+}
+
+.loginLogo-container {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  height: 100%;
+  .logo {
+    position: relative;
+    width: 82%;
+    max-width: 940px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .loginLogo-container {
+    display: none;
+  }
+  .login-box {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .login-box {
+    min-width: 480px;
+    width: 42%;
+  }
+}
