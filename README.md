@@ -1,46 +1,115 @@
-# Getting Started with Create React App
+# **Desafio Frontend PicPay**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Primeiramente, obrigado pelo seu interesse em trabalhar na melhor plataforma de pagamentos do mundo!
+Abaixo você encontrará todos as informações necessárias para iniciar o seu teste.
 
-## Available Scripts
+## Avisos antes de começar
 
-In the project directory, you can run:
+- Certifique-se que você recebeu um email de convite de acesso ao layout proposto no **Figma**, caso não tenha recebido, solicite o acesso com o Recruiter. Também há screenshoots do Figma na pasta screenshots. Você não é obrigado a seguir o layout do figma, ele é apenas uma base para que você entenda melhor o desafio proposto.
 
-### `npm start`
+- Para a entrega do teste você precisará ter two factor habilitado na sua conta do GitHub, você poderá ver o passo a passo nesse tutorial: https://help.github.com/pt/github/authenticating-to-github/configuring-two-factor-authentication
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Com two factor habilitado, você precisa configurar a chave SSH: https://help.github.com/pt/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Para iniciar o teste, crie uma branch a partir da `master` nesse padrão de nomenclatura: dd-mm-yy/nome-sobrenome (por exemplo, 30-04-20/meu-nome)**
+- **Quando finalizar o teste, crie uma PR (Pull Request) da sua branch para a master e avise o(a) recrutador(a) que o teste está finalizado.**
+- Você poderá consultar o Google, Stackoverflow ou algum projeto particular na sua máquina.
+- Fique à vontade para perguntar qualquer dúvida aos recrutadores.
 
-### `npm test`
+- Fique tranquilo, respire, assim como você, também já passamos por essa etapa. Boa sorte! :)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup do projeto
 
-### `npm run build`
+- React: v18
+- Node: 12.20.2
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+A utilização do React e Node nas versões acima **é obrigatória**.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Como Rodar?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Instale as dependências usando o comando `npm install`
+- Na raiz do repositório, rode este comando `npm start` para iniciar o servidor de desenvolvimento.
+- A Aplicação estará disponível na porta `http://localhost:3000/`
 
-### `npm run eject`
+<br/>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Leia com atenção! ⚠️
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**1 -** Nosso desafio consiste de uma aplicação (CRUD), que traz uma tabela de itens e que deverá ter paginação. No layout proposto há um botão de filtragem dos itens, isso é um plus que pode contar mais pontos. Esta aplicação consiste de uma tela de login (consultar usuário no fim deste arquivo), para que você tenha acesso à tela de listagem (home). Você poderá utilizar a lib de components que quiser, mas desde que siga o mínimo do layout proposto. Você pode implementar novas features, melhorar o design, tudo que você fizer contará pontos!
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**2 -** Temos uma API mock (JSON Server) na qual você utilizará para implementar os seus serviços de CRUD. Os dados estão armazenados no arquivo `db.json` na raiz do projeto.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**3 -** Certifique-se de revisar seu código, a modo que fique o mais organizado possível para a avaliação e entendimento dos avaliadores.
 
-## Learn More
+**4 -** Utilize a estrutura de pastas que achar mais adequada, bem como padrões, patterns, práticas de segurança, performance etc.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**5 -** Caso você seja JR e tenha algum receio, não se preocupe, iremos avaliar o que foi entregue, mesmo com pendências.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**6 -** O diferencial para este desafio, é o aprimoramento do mesmo, bem como implementação de práticas de segurança, performance e/ou estrutura.
+<br/>
+<br/>
+
+### **API**
+
+Para o seu desafio ser mais interativo, estamos utilizando um mock de API, chamado JSON Server. Portanto, é necessário que você instale-o globalmente em sua máquina para ter os recursos da lib.
+
+**1 -** Como instalar? <br/>
+`npm install -g json-server`
+
+**2 -** e para rodar (deixar aberto em uma outra aba do terminal, para que ele fique escutando suas ações de CRUD!), digite o seguinte comando na RAÍZ do projeto: `npm run api`
+
+Link para mais detalhes: https://github.com/typicode/json-server
+
+**Rotas:** <br />
+`GET: /tasks`<br />
+`POST: /tasks`<br />
+`PUT: /tasks`<br />
+`PATCH: /tasks`<br />
+`DELETE: /tasks`<br />
+
+`GET: /account` <br />
+`POST: /account` <br />
+`PUT: /account` <br />
+`PATCH: /account` <br />
+`DELETE: /account` <br />
+<br/>
+
+### **Models**:<br />
+
+Tasks - Esta é sua lista com agenda de pagamentos. Aqui você cadastrar, editar e excluir um pagamento.<br />
+` { "id": 5, "name": "Anthea Pundy", "username": "apundy4", "title": "Software Engineer III", "value": 177.19, "date": "2021-01-01T14:09:51Z", "image": "https://robohash.org/quiaautomnis.png?size=150x150&set=set1", "isPayed": true },`
+
+Account - você usará este usuário para Login da plataforma<br />
+`{ "id": 0, "name": "usuario", "email": "usuario@gmail.com", "password": "usuario" }`
+
+<br/>
+
+### **Parametros da API (Json Server):**
+
+paginate:<br />
+`GET: /tasks?_page=7` <br />
+`GET: /tasks?_page=7&_limit=20`
+
+**Usuário para utilizar no login:**<br />
+` "email": "usuario@gmail.com", "password": "usuario"`
+<br/>
+<br/>
+
+**Orientações e dicas:**
+
+- Esperamos que você consiga completar o mínimo do desafio; Mas não se esqueça, que aqui no PicPay é muito concorrido, então você irá concorrer com outras pessoas desenvolvedoras que também querem muito trabalhar conosco, então, arrebenta, mostre o seu melhor! 😉
+
+- Iremos avaliar cada feature, conceito, pattern, tudo o que você fizer de adicional. Tudo além do proposta contará pontos!
+
+- Caso você esteja concorrendo a uma vaga de Sênior, testes unitários são necessários no teste. Se você estiver concorrendo a uma vaga de JR ou Pleno, não é obrigatorio, mas é um grande diferencial caso seja aplicado os testes.
+
+- Faça commits regulares. Eles são melhores do que um commit gigantesco. Gostaríamos de ver commits organizados e padronizados, então capriche neles!
+
+### **Links úteis**:
+
+https://github.com/BeeTech-global/bee-stylish/tree/master/commits
+https://www.conventionalcommits.org/en/v1.0.0/
+
+Qualquer problema por favor contate seu recruiter.
+
+**BOA SORTE !** 😉😉😉
