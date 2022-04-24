@@ -18,6 +18,7 @@ import User from "../../interfaces/User";
 import { useForm } from "react-hook-form";
 import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
 import { SnackbarOptions } from "../../interfaces/SnackbarOptions";
+import { Storage } from "../../utils/Storage";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,10 +57,20 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    // userServices.login({ email, password }, () => navigate("/"));
-    userServices.login({ email, password }, (event: string) => {
-      if (event === "success") navigate("/");
-      setSnackbarOptions({ visible: true, message: event, severity: "error" });
+    userServices.login().then(({ data }) => {
+      const { password, id, ...userFound } = data.filter(
+        (user: User) => user.email === email && user.password === password
+      );
+      if (userFound[0]) {
+        Storage.set("authenticatedUser", userFound);
+        navigate("/");
+      } else {
+        setSnackbarOptions({
+          visible: true,
+          message: "Nenhum usuário encontrado com estas credenciais",
+          severity: "error",
+        });
+      }
     });
   };
 
