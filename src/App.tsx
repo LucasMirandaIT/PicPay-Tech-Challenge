@@ -4,11 +4,8 @@ import Login from "./pages/Login/LoginPage";
 import PaymentsPage from "./pages/PaymentsPage/PaymentsPage";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
-import SnackbarProvider from "react-simple-snackbar";
-
 function App() {
   return (
-    <SnackbarProvider>
       <Router>
         <div className="pageLayout">
           <Routes>
@@ -25,7 +22,6 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </SnackbarProvider>
   );
 }
 

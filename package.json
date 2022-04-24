@@ -29,7 +29,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"json-server --watch db.json --port 3030\"",
+    "start": "json-server --watch db.json --port 3030 & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --watchAll",
     "eject": "react-scripts eject"
