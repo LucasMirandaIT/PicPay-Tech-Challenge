@@ -53,10 +53,6 @@ describe("LoginPage", () => {
       .mockImplementation((x: any) => [x, stateMock]);
 
     render(<Login />);
-    // await act(async () => {
-    //   fireEvent.click(screen.getByTestId("login-button"));
-    // });
-    // expect(screen.getByTestId("login-button")).toBeInTheDocument();
   });
   it("Test Form Validation succeeded (ShowPassword)", async () => {
     const stateMock = jest.fn();

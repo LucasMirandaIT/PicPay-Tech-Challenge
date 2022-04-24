@@ -8,7 +8,7 @@ interface LoginData {
 }
 
 export const userServices = {
-  login: (loginData: LoginData, handleCallback: (event: string) => void) => {
+  login: (loginData: LoginData, cb: () => void) => {
     axios.get("http://localhost:3030/account").then(({ data }) => {
       const { password, id, ...userFound } = data.filter(
         (user: User) =>
@@ -16,9 +16,9 @@ export const userServices = {
       );
       if (userFound[0]) {
         Storage.set("authenticatedUser", userFound);
-        handleCallback("success");
+        cb();
       } else {
-        handleCallback("Nenhum usuário encontrado com estas credenciais");
+        console.log("Nenhum usuário encontrado com estas credenciais");
       }
     });
   },

@@ -37,6 +37,7 @@ const TablePagination = ({
       {/* Left navigation arrow */}
       <button
         disabled={currentPage === 1}
+        data-testid="pagination-back-btn"
         className={`pagination-item arrow 
           ${currentPage === 1 ? "disabled" : ""}
         `}
@@ -58,6 +59,7 @@ const TablePagination = ({
         return (
           <li
             key={pageNumber}
+            data-testid={`pagination-pill-${pageNumber}`}
             className={`pagination-item ${
               pageNumber === currentPage ? "selected" : ""
             }`}
@@ -70,6 +72,7 @@ const TablePagination = ({
       {/*  Right Navigation arrow */}
       <button
         disabled={currentPage === lastPage}
+        data-testid="pagination-next-btn"
         className={`pagination-item arrow ${
           currentPage === lastPage ? "disabled" : ""
         }`}

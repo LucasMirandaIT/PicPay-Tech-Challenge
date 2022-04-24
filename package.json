@@ -31,7 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage --watchAll",
     "eject": "react-scripts eject",
     "api": "json-server --watch db.json --port 3030"
   },
@@ -58,7 +58,8 @@
       "src/**/*.{ts,tsx}",
       "!src/utils/mocks/*.{ts,tsx}",
       "!src/interfaces/**/*.{ts,tsx}",
-      "!src/**/*.d.ts"
+      "!src/**/*.d.ts",
+      "!src/index.tsx"
     ]
   }
 }

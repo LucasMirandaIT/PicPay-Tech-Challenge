@@ -107,46 +107,6 @@ describe("PaymentsPage", () => {
     fireEvent.click(screen.getByTestId("header-username"));
   });
 
-  xit("checkbox change fetch", () => {
-    const paymentsMock = [
-      {
-        id: 7,
-        name: "Lonna Bonney",
-        username: "lbonney6",
-        title: "Media Planner Jr",
-        value: "2885.86",
-        date: "2020-10-02T23:04:57Z",
-        isPaid: false,
-      },
-    ];
-    const stateMock = jest.fn();
-    jest
-      .spyOn(React, "useState")
-      .mockImplementationOnce(() => [paymentsMock, () => null])
-      .mockImplementationOnce(() => [1, () => null])
-      .mockImplementationOnce(() => [1, () => null])
-      .mockImplementationOnce(() => [10, () => null])
-      .mockImplementationOnce(() => ["", () => null])
-      .mockImplementationOnce(() => ["desc", () => null])
-      .mockImplementationOnce(() => ["username", () => null])
-      .mockImplementation((x: any) => [x, stateMock]);
-
-    jest.mock("../../../services/Payments", () => {
-      const mockedService = {
-        getPayments: jest.fn(),
-        updatePayment: jest.fn(),
-        removePayment: jest.fn(),
-        createPayment: jest.fn(),
-      };
-      return {
-        paymentsServices: jest.fn(() => mockedService),
-      };
-    });
-
-    render(<PaymentsPage />);
-    fireEvent.change(screen.getByTestId("checkbox-7"));
-  });
-
   it("open add payment Modal", () => {
     const paymentsMock = [
       {
