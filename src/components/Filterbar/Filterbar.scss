@@ -1,14 +1,13 @@
+.filterbar-container {
+  height: auto;
+  overflow: hidden;
+  padding: 15px 10px;
+  transition: 1s height;
+}
 .filterbar-container.collapsed {
   height: 40px;
   transition: 1s height;
 }
-.filterbar-container {
-  height: auto;
-  transition: 1s height;
-  overflow: hidden;
-  padding: 15px 10px;
-}
-
 .filters-box {
   display: flex;
   flex-wrap: wrap;

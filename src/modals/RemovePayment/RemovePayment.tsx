@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button, Modal } from "@mui/material";
 import axios from "axios";
 import { format } from "date-fns";
 import { SyntheticEvent, useState } from "react";
@@ -11,7 +11,7 @@ import CurrencyUtils from "../../utils/CurrencyUtils";
 
 import "./RemovePayment.scss";
 
-const RemovePayment = ({ data, handleClose }: ModalPayments) => {
+const RemovePayment = ({ open, data, handleClose }: ModalPayments) => {
   const [snackbarOptions, setSnackbarOptions] = useState<SnackbarOptions>({
     visible: false,
     message: "",
@@ -33,7 +33,7 @@ const RemovePayment = ({ data, handleClose }: ModalPayments) => {
   };
 
   const parseDate = (date: string) => {
-    return format(new Date(data.date), "dd/MM/yyyy hh:mm");
+    return date ? format(new Date(date), "dd/MM/yyyy hh:mm") : date;
   };
 
   const handleCloseSnackbar = (
@@ -48,36 +48,42 @@ const RemovePayment = ({ data, handleClose }: ModalPayments) => {
   };
 
   return (
-    <section className="modal-body">
-      <h3 className="title">Remover Pagamento</h3>
+    <Modal open={open} onClose={handleClose}>
+      <Box className="modal-box">
+        <section className="modal-body">
+          <h3 className="title">Remover Pagamento</h3>
 
-      <section className="payment-data">
-        <p>Usuário:&nbsp;{data.username}</p>
-        <p>Data:&nbsp;{parseDate(data.date)}</p>
-        <p>Valor:&nbsp;{CurrencyUtils.formatCurrency(data.value)}</p>
-      </section>
+          <section className="payment-data">
+            <p>Usuário:&nbsp;{data.username}</p>
+            <p>Data:&nbsp;{parseDate(data.date)}</p>
+            <p>Valor:&nbsp;{CurrencyUtils.formatCurrency(data.value)}</p>
+          </section>
 
-      <section className="footer">
-        <Button
-          variant="contained"
-          className="cancel-button"
-          onClick={() => handleClose({}, "")}
-        >
-          Cancelar
-        </Button>
-        <Button
-          variant="contained"
-          className="confirm-button"
-          onClick={removePayment}
-        >
-          Salvar
-        </Button>
-      </section>
-      <CustomSnackbar
-        snackbarOptions={snackbarOptions}
-        handleClose={handleCloseSnackbar}
-      />
-    </section>
+          <section className="footer">
+            <Button
+              variant="contained"
+              className="cancel-button"
+              data-testid="cancel-btn-remove-modal"
+              onClick={() => handleClose({}, "")}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              data-testid="remove-payment-btn"
+              className="confirm-button"
+              onClick={removePayment}
+            >
+              Salvar
+            </Button>
+          </section>
+          <CustomSnackbar
+            snackbarOptions={snackbarOptions}
+            handleClose={handleCloseSnackbar}
+          />
+        </section>
+      </Box>
+    </Modal>
   );
 };
 

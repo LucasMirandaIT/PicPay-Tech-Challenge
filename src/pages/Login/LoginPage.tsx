@@ -17,22 +17,18 @@ import { userServices } from "../../services/User";
 import User from "../../interfaces/User";
 import { useForm } from "react-hook-form";
 import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
+import { SnackbarOptions } from "../../interfaces/SnackbarOptions";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
-  const [snackbarOptions, setSnackbarOptions] = useState({
+  const [snackbarOptions, setSnackbarOptions] = useState<SnackbarOptions>({
     visible: false,
     message: "",
   });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<User>({ mode: "onBlur" });
 
   const authenticatedUser = sessionStorage.getItem("authenticatedUser");
   const navigate = useNavigate();
@@ -42,27 +38,29 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    if (!errors.email && !errors.password) return;
-    if (errors?.email?.type === "pattern") {
-      setSnackbarOptions({ visible: true, message: "Digite um e-mail válido" });
-    }
-    if (
-      errors?.email?.type === "required" ||
-      errors?.password?.type === "required"
-    ) {
+    let emailRegex = /\S+@\S+\.\S+/;
+    email && setIsEmailValid(emailRegex.test(email));
+  }, [email]);
+
+  useEffect(() => {
+    !isEmailValid &&
       setSnackbarOptions({
         visible: true,
-        message: "Preencha todos os campos obrigatórios",
+        message: "Digite um e-mail válido",
+        severity: "error",
       });
-    }
-  }, [errors.email, errors.password]);
+  }, [isEmailValid]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = (loginData: any) => {
-    userServices.login(loginData, () => navigate("/"));
+  const handleLogin = () => {
+    // userServices.login({ email, password }, () => navigate("/"));
+    userServices.login({ email, password }, (event: string) => {
+      if (event === "success") navigate("/");
+      setSnackbarOptions({ visible: true, message: event, severity: "error" });
+    });
   };
 
   const handleCloseSnackbar = () => {
@@ -72,7 +70,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <section className="login-box">
-        <form className="form" noValidate onSubmit={handleSubmit(handleLogin)}>
+        <section className="form">
           <div className="product-container">
             <img
               src="/assets/logo_blue.svg"
@@ -80,29 +78,28 @@ const Login = () => {
               alt="PayFriends logo"
               style={{ marginBottom: "18px" }}
             />
-            <span className="welcome-text">Bem-vindo de volta</span>
+            <span data-testid="welcome-text" className="welcome-text">
+              Bem-vindo de volta
+            </span>
           </div>
           <TextField
             id="login-input"
             data-testid="email-input"
             type="email"
-            error={errors?.email ? true : false}
+            error={!isEmailValid}
             label="Email"
-            {...register("email", {
-              required: true,
-              pattern: /\S+@\S+\.\S+/,
-            })}
+            value={email}
+            onChange={({ target: { value } }) => setEmail(value)}
             variant="outlined"
           />
           <OutlinedInput
             id="psswd-input"
             data-testid="password-input"
             placeholder="Senha"
-            // onChange={({ target: { value } }) => setPassword(value)}
-            error={errors?.password ? true : false}
             type={showPassword ? "text" : "password"}
             sx={{ marginTop: "28px" }}
-            {...register("password", { required: true })}
+            value={password}
+            onChange={({ target: { value } }) => setPassword(value)}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -122,7 +119,8 @@ const Login = () => {
             variant="contained"
             data-testid="login-button"
             type="submit"
-            // onClick={handleLogin}
+            disabled={!email || !password}
+            onClick={handleLogin}
             sx={{
               marginTop: "36px",
               height: "36px",
@@ -134,7 +132,7 @@ const Login = () => {
           >
             Entrar
           </Button>
-        </form>
+        </section>
       </section>
 
       <section className="loginLogo-container">
@@ -145,7 +143,10 @@ const Login = () => {
         />
       </section>
 
-      <CustomSnackbar snackbarOptions={snackbarOptions} handleClose={handleCloseSnackbar} />
+      <CustomSnackbar
+        snackbarOptions={snackbarOptions}
+        handleClose={handleCloseSnackbar}
+      />
     </div>
   );
 };

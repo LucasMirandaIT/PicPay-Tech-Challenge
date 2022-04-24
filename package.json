@@ -55,8 +55,10 @@
   },
   "jest": {
     "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
       "!src/utils/mocks/*.{ts,tsx}",
-      "!src/index.tsx"
+      "!src/interfaces/**/*.{ts,tsx}",
+      "!src/**/*.d.ts"
     ]
   }
 }

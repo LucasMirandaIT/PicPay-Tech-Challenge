@@ -78,38 +78,50 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
 
   return (
     <div
-      className={`filterbar-container ${
-        isCollapsedFilterbar ? "collapsed" : ""
-      }`}
+      className={`filterbar-container ${isCollapsedFilterbar && "collapsed"}`}
     >
       {isCollapsedFilterbar && (
-        <Button variant="contained" onClick={toggleCollapseFilterbar}>
+        <Button
+          variant="contained"
+          data-testid="filters-btn"
+          onClick={toggleCollapseFilterbar}
+        >
           <Tune className="tune-icon" />
           Filtrar
         </Button>
       )}
       {!isCollapsedFilterbar && (
         <section className="filters-box">
-          <FormControl className="filter-container" variant="outlined">
+          <FormControl
+            margin="normal"
+            className="filter-container"
+            variant="outlined"
+          >
             <InputLabel htmlFor="pageHeader-search-input">Usuários</InputLabel>
             <OutlinedInput
               id="pageHeader-search-input"
               type="text"
+              inputProps={{ "data-testid": "username-filter-input" }}
               value={filters.username}
               onChange={handleChange("username")}
             />
           </FormControl>
-          <FormControl className="filter-container" variant="outlined">
+          <FormControl
+            margin="normal"
+            className="filter-container"
+            variant="outlined"
+          >
             <InputLabel htmlFor="pageHeader-search-input">Título</InputLabel>
             <OutlinedInput
               id="pageHeader-search-input"
               type="text"
+              inputProps={{ "data-testid": "title-filter-input" }}
               value={filters.title}
               onChange={handleChange("title")}
             />
           </FormControl>
 
-          <FormControl className="filter-container">
+          <FormControl margin="normal" className="filter-container">
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
               locale={brLocale}
@@ -124,7 +136,7 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
             </LocalizationProvider>
           </FormControl>
 
-          <FormControl className="filter-container">
+          <FormControl margin="normal" className="filter-container">
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
               locale={brLocale}
@@ -139,7 +151,11 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
             </LocalizationProvider>
           </FormControl>
 
-          <FormControl className="filter-container" variant="outlined">
+          <FormControl
+            margin="normal"
+            className="filter-container"
+            variant="outlined"
+          >
             <InputLabel htmlFor="pageHeader-minValue-input">
               Valor Mínimo
             </InputLabel>
@@ -151,7 +167,11 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
             />
           </FormControl>
 
-          <FormControl className="filter-container" variant="outlined">
+          <FormControl
+            margin="normal"
+            className="filter-container"
+            variant="outlined"
+          >
             <InputLabel htmlFor="pageHeader-maxValue-input">
               Valor Máximo
             </InputLabel>
@@ -162,7 +182,7 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
               onChange={handleChange("value_lte")}
             />
           </FormControl>
-          <FormControl className="filter-container">
+          <FormControl margin="normal" className="filter-container">
             <InputLabel id="demo-simple-select-label">Status</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -179,12 +199,17 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
           <div className="buttons-container">
             <Button
               variant="outlined"
+              data-testid="clear-filters-btn"
               onClick={clearFilters}
               sx={{ marginRight: "15px" }}
             >
               Limpar
             </Button>
-            <Button variant="contained" onClick={sendFilters}>
+            <Button
+              variant="contained"
+              data-testid="send-filters-btn"
+              onClick={sendFilters}
+            >
               Filtrar
             </Button>
           </div>

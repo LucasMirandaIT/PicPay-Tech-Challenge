@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders app without user logged in sessionStorage', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Seja muito bem vindos ao nosso teste./i);
+  const linkElement = screen.getByTestId("welcome-text");
   expect(linkElement).toBeInTheDocument();
 });

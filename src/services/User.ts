@@ -8,17 +8,17 @@ interface LoginData {
 }
 
 export const userServices = {
-  login: (loginData: LoginData, cb: () => void) => {
+  login: (loginData: LoginData, handleCallback: (event: string) => void) => {
     axios.get("http://localhost:3030/account").then(({ data }) => {
       const { password, id, ...userFound } = data.filter(
         (user: User) =>
           user.email === loginData.email && user.password === loginData.password
-      )[0];
-      if (userFound) {
+      );
+      if (userFound[0]) {
         Storage.set("authenticatedUser", userFound);
-        cb();
+        handleCallback("success");
       } else {
-        console.log("Nenhum usuário encontrado com estas credenciais");
+        handleCallback("Nenhum usuário encontrado com estas credenciais");
       }
     });
   },

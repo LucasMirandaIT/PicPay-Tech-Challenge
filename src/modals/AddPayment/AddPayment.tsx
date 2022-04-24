@@ -1,15 +1,17 @@
 import {
+  Box,
   Button,
   DialogTitle,
   FormControl,
   Grid,
   InputAdornment,
   InputLabel,
+  Modal,
   OutlinedInput,
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import brLocale from "date-fns/locale/pt-BR";
 
@@ -20,7 +22,7 @@ import "./AddPayment.scss";
 import ModalPayments from "../../interfaces/ModalPayments";
 import { paymentsServices } from "../../services/Payments";
 
-const AddPayment = ({ data, handleClose }: ModalPayments) => {
+const AddPayment = ({ open, data, handleClose }: ModalPayments) => {
   const [values, setValues] = useState({
     name: "",
     username: "",
@@ -28,8 +30,6 @@ const AddPayment = ({ data, handleClose }: ModalPayments) => {
     date: null,
     title: "",
   });
-
-  const dateRef = useRef();
 
   useEffect(() => {
     data && setValues(data);
@@ -74,107 +74,124 @@ const AddPayment = ({ data, handleClose }: ModalPayments) => {
   };
 
   return (
-    <section className="modal-body">
-      <DialogTitle></DialogTitle>
-      <h3 className="title">Adicionar Pagamento</h3>
-      <Grid container spacing={2} className="informations">
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            fullWidth
-            id="login-input"
-            label={"Nome"}
-            required
-            value={values?.name}
-            onChange={handleChangeText("name")}
-            variant="outlined"
-            InputLabelProps={{ shrink: true }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            fullWidth
-            id="login-input"
-            label="Usuário"
-            required
-            value={values?.username}
-            onChange={handleChangeText("username")}
-            variant="outlined"
-            InputLabelProps={{ shrink: true }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            fullWidth
-            id="login-input"
-            label="Título"
-            required
-            value={values?.title}
-            onChange={handleChangeText("title")}
-            variant="outlined"
-            InputLabelProps={{ shrink: true }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="value-input">Valor *</InputLabel>
-            <OutlinedInput
-              id="value-input"
-              label="Valor"
-              required
-              value={values?.value}
-              onChange={handleChangeText("value")}
-              type="number"
-              inputProps={{ inputMode: "numeric", pattern: "[0-9]*", min: 0 }}
-              startAdornment={
-                <InputAdornment position="start">R$</InputAdornment>
-              }
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
-            <DateTimePicker
-              label="Data *"
-              value={values?.date}
-              mask="__/__/____ __:__"
-              onChange={handleChangeDate("date")}
-              renderInput={(params) => (
-                <TextField
-                  InputLabelProps={{ shrink: true }}
-                  disabled
-                  sx={{ width: "100%" }}
-                  {...params}
+    <Modal open={open} onClose={handleClose}>
+      <Box className="modal-box">
+        <section className="modal-body">
+          <DialogTitle></DialogTitle>
+          <h3 className="title">Adicionar Pagamento</h3>
+          <Grid container spacing={2} className="informations">
+            <Grid item xs={12} sm={6} md={4}>
+              <TextField
+                fullWidth
+                id="name-input"
+                label={"Nome"}
+                required
+                value={values?.name}
+                onChange={handleChangeText("name")}
+                inputProps={{ "data-testid": "name-add-input" }}
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <TextField
+                fullWidth
+                id="username-input"
+                label="Usuário"
+                required
+                value={values?.username}
+                inputProps={{ "data-testid": "username-add-input" }}
+                onChange={handleChangeText("username")}
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <TextField
+                fullWidth
+                id="title-input"
+                label="Título"
+                required
+                value={values?.title}
+                inputProps={{ "data-testid": "title-add-input" }}
+                onChange={handleChangeText("title")}
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="value-input">Valor *</InputLabel>
+                <OutlinedInput
+                  id="value-input"
+                  label="Valor"
+                  required
+                  value={values?.value}
+                  onChange={handleChangeText("value")}
+                  type="number"
+                  inputProps={{
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                    min: 0,
+                    "data-testid": "value-add-input",
+                  }}
+                  startAdornment={
+                    <InputAdornment position="start">R$</InputAdornment>
+                  }
                 />
-              )}
-            />
-          </LocalizationProvider>
-        </Grid>
-      </Grid>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                locale={brLocale}
+              >
+                <DateTimePicker
+                  label="Data *"
+                  value={values?.date}
+                  mask="__/__/____ __:__"
+                  onChange={handleChangeDate("date")}
+                  renderInput={(params) => (
+                    <TextField
+                      InputLabelProps={{ shrink: true }}
+                      disabled
+                      sx={{ width: "100%" }}
+                      {...params}
+                    />
+                  )}
+                />
+              </LocalizationProvider>
+            </Grid>
+          </Grid>
 
-      <section className="footer">
-        <Button
-          variant="contained"
-          className="cancel-button"
-          onClick={(event) => handleClose(event, "")}
-        >
-          Cancelar
-        </Button>
-        <Button
-          variant="contained"
-          disabled={
-            !values.date ||
-            !values.value ||
-            !values.username ||
-            !values.name ||
-            !values.title
-          }
-          className="confirm-button"
-          onClick={savePayment}
-        >
-          Salvar
-        </Button>
-      </section>
-    </section>
+          <section className="footer">
+            <Button
+              variant="contained"
+              className="cancel-button"
+              data-testid="cancel-button"
+              onClick={(event) => handleClose(event, "")}
+            >
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              data-testid="save-payment-btn"
+              disabled={
+                !values.date ||
+                !values.value ||
+                !values.username ||
+                !values.name ||
+                !values.title
+              }
+              className="confirm-button"
+              onClick={savePayment}
+            >
+              Salvar
+            </Button>
+          </section>
+        </section>
+      </Box>
+    </Modal>
   );
 };
 

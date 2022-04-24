@@ -26,7 +26,7 @@ const Navbar = () => {
   };
 
   const handleBackdrop = () => {
-    if (isMenuOpen) setIsMenuOpen(false);
+    setIsMenuOpen(false);
   };
 
   return (
@@ -67,7 +67,7 @@ const Navbar = () => {
               </div>
             </div>
             {isMenuOpen && (
-              <div className="dropdown-backdrop" onClick={handleBackdrop}></div>
+              <div className="dropdown-backdrop" data-testid="navbar-menu-backdrop" onClick={handleBackdrop}></div>
             )}
           </>
         </div>
