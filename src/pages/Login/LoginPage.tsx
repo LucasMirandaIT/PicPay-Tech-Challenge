@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Alert,
   Button,
   IconButton,
   InputAdornment,
   OutlinedInput,
-  Snackbar,
   TextField,
 } from "@mui/material";
 
@@ -15,15 +13,12 @@ import "./LoginPage.scss";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { userServices } from "../../services/User";
 import User from "../../interfaces/User";
-import { useForm } from "react-hook-form";
 import CustomSnackbar from "../../components/CustomSnackbar/CustomSnackbar";
 import { SnackbarOptions } from "../../interfaces/SnackbarOptions";
 import { Storage } from "../../utils/Storage";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -67,7 +62,7 @@ const Login = () => {
           user.email === values.email && user.password === values.password
       );
       if (userFound[0]) {
-        Storage.set("authenticatedUser", userFound);
+        Storage.set("authenticatedUser", userFound[0]);
         navigate("/");
       } else {
         setSnackbarOptions({
@@ -108,7 +103,6 @@ const Login = () => {
             onChange={({ target: { value } }) =>
               setValues({ ...values, email: value })
             }
-            // onChange={({ target: { value } }) => setEmail(value)}
             variant="outlined"
           />
           <OutlinedInput
@@ -121,7 +115,6 @@ const Login = () => {
             onChange={({ target: { value } }) =>
               setValues({ ...values, password: value })
             }
-            // onChange={({ target: { value } }) => setPassword(value)}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -141,7 +134,7 @@ const Login = () => {
             variant="contained"
             data-testid="login-button"
             type="submit"
-            disabled={!email || !password}
+            disabled={!values.email || !values.password}
             onClick={handleLogin}
             sx={{
               marginTop: "36px",

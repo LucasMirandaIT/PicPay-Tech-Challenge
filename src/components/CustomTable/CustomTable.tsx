@@ -31,10 +31,7 @@ interface CustomTableProps {
   orderBy: string;
   setOrderBy: (value: string) => void;
   payments: Array<Payment>;
-  changeCheckbox: (
-    event: ChangeEvent<HTMLInputElement>,
-    row: any
-  ) => void;
+  changeCheckbox: (event: ChangeEvent<HTMLInputElement>, row: any) => void;
   handleAddModal: (row: Payment) => void;
   handleRemoveModal: (row: Payment) => void;
 }

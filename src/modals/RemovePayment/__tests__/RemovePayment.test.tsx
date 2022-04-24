@@ -75,4 +75,6 @@ describe("AddPaymentModal", () => {
     //   target: { value: "teste" },
     // });
   });
+
+
 });

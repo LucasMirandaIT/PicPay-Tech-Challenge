@@ -10,7 +10,6 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import brLocale from "date-fns/locale/pt-BR";
@@ -37,7 +36,7 @@ const AddPayment = ({ open, data, handleClose }: ModalPayments) => {
 
   const handleChangeText =
     (input: string) => (event: ChangeEvent<HTMLInputElement>) => {
-      if (input == "value" && event.target.value.startsWith("-"))
+      if (input === "value" && event.target.value.startsWith("-"))
         event.target.value = (Number(event.target.value) * -1).toString();
       setValues({
         ...values,

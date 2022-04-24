@@ -40,7 +40,6 @@ const PaymentsPage = () => {
       username: "",
       value: "",
     },
-    renderElement: () => <></>,
   });
 
   const fetchPayments = useCallback(

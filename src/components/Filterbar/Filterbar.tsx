@@ -2,6 +2,7 @@ import { Tune } from "@mui/icons-material";
 import {
   Button,
   FormControl,
+  InputAdornment,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -14,6 +15,7 @@ import { useState } from "react";
 import "./Filterbar.scss";
 
 import brLocale from "date-fns/locale/pt-BR";
+import { format } from "date-fns";
 
 interface FilterBarProps {
   handleFilters: (filters: any) => void;
@@ -37,9 +39,8 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
   };
 
   const handleChange = (type: string) => (event: any) => {
-    //   REFACTOR
     const value = type.toLowerCase().includes("date")
-      ? event
+      ? format(event, "yyyy-MM-dd")
       : event.target.value;
     setFilters({ ...filters, [type]: value });
   };
@@ -67,7 +68,7 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
     for (const key in filteredFilters) {
       if (
         isEmpty(filteredFilters[key]) ||
-        (key == "isPaid" && filteredFilters[key].length === 2)
+        (key === "isPaid" && filteredFilters[key].length === 2)
       )
         delete filteredFilters[key];
       //   if(filteredFilters[key])
@@ -97,13 +98,15 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
             className="filter-container"
             variant="outlined"
           >
-            <InputLabel htmlFor="pageHeader-search-input">Usuários</InputLabel>
-            <OutlinedInput
+            <TextField
+              fullWidth
               id="pageHeader-search-input"
-              type="text"
+              label="Usuários"
+              value={filters?.username}
               inputProps={{ "data-testid": "username-filter-input" }}
-              value={filters.username}
               onChange={handleChange("username")}
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
             />
           </FormControl>
           <FormControl
@@ -111,13 +114,15 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
             className="filter-container"
             variant="outlined"
           >
-            <InputLabel htmlFor="pageHeader-search-input">Título</InputLabel>
-            <OutlinedInput
+            <TextField
+              fullWidth
               id="pageHeader-search-input"
-              type="text"
+              label="Título"
+              value={filters?.title}
               inputProps={{ "data-testid": "title-filter-input" }}
-              value={filters.title}
               onChange={handleChange("title")}
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
             />
           </FormControl>
 
@@ -156,14 +161,21 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
             className="filter-container"
             variant="outlined"
           >
-            <InputLabel htmlFor="pageHeader-minValue-input">
-              Valor Mínimo
-            </InputLabel>
+            <InputLabel htmlFor="value-input">Valor Mínimo</InputLabel>
             <OutlinedInput
-              id="pageHeader-minValue-input"
-              type="text"
-              value={filters.value_gte}
+              id="value-input"
+              label="Valor Mínimo"
+              value={filters?.value_gte}
               onChange={handleChange("value_gte")}
+              type="number"
+              inputProps={{
+                inputMode: "numeric",
+                pattern: "[0-9]*",
+                min: 0,
+              }}
+              startAdornment={
+                <InputAdornment position="start">R$</InputAdornment>
+              }
             />
           </FormControl>
 
@@ -172,14 +184,32 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
             className="filter-container"
             variant="outlined"
           >
-            <InputLabel htmlFor="pageHeader-maxValue-input">
-              Valor Máximo
-            </InputLabel>
-            <OutlinedInput
-              id="pageHeader-maxValue-input"
-              type="text"
-              value={filters.value_lte}
+            {/* <TextField
+              fullWidth
+              id="pageHeader-search-input"
+              label="Valor Máximo"
+              value={filters?.value_lte}
+              inputProps={{ "data-testid": "value_lte-add-input" }}
               onChange={handleChange("value_lte")}
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
+            /> */}
+
+            <InputLabel htmlFor="value-input">Valor Máximo</InputLabel>
+            <OutlinedInput
+              id="value-input"
+              label="Valor Máximo"
+              value={filters?.value_lte}
+              onChange={handleChange("value_lte")}
+              type="number"
+              inputProps={{
+                inputMode: "numeric",
+                pattern: "[0-9]*",
+                min: 0,
+              }}
+              startAdornment={
+                <InputAdornment position="start">R$</InputAdornment>
+              }
             />
           </FormControl>
           <FormControl margin="normal" className="filter-container">

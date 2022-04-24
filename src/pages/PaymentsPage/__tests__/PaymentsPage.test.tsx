@@ -3,10 +3,6 @@ import React from "react";
 
 import PaymentsPage from "../PaymentsPage";
 
-import axios from "axios";
-
-jest.mock("axios");
-
 describe("PaymentsPage", () => {
   it("test rendering", () => {
     const stateMock = jest.fn();
@@ -147,17 +143,6 @@ describe("PaymentsPage", () => {
       };
     });
 
-    axios.get.mockImplementation(() =>
-      Promise.resolve({
-        data: {},
-      })
-    );
-    axios.put.mockImplementation(() =>
-      Promise.resolve({
-        data: {},
-      })
-    );
-
     render(<PaymentsPage />);
     // MuiBackdrop-root
     fireEvent.click(screen.getByTestId("cancel-button"));
@@ -199,16 +184,6 @@ describe("PaymentsPage", () => {
         paymentsServices: jest.fn(() => mockedService),
       };
     });
-    axios.get.mockImplementation(() =>
-      Promise.resolve({
-        data: {},
-      })
-    );
-    axios.put.mockImplementation(() =>
-      Promise.resolve({
-        data: {},
-      })
-    );
 
     render(<PaymentsPage />);
     fireEvent.click(screen.getByTestId("cancel-btn-remove-modal"));

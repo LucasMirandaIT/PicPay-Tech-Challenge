@@ -7,7 +7,6 @@ import CustomSnackbar from "../../../components/CustomSnackbar/CustomSnackbar";
 import { userServices } from "../../../services/User";
 import Login from "../LoginPage";
 
-const nock = require("nock");
 const mockedUsedNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => ({
@@ -47,18 +46,27 @@ describe("LoginPage", () => {
   });
   it("Test Form Validation succeeded (!ShowPassword)", async () => {
     const stateMock = jest.fn();
+    axios.get.mockImplementation(() =>
+      Promise.resolve({
+        data: [{ email: "usuario@gmail.com", password: "usuario" }],
+      })
+    );
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() => [false, () => null])
-      .mockImplementationOnce(() => ["usuario@gmail.com", () => null])
-      .mockImplementationOnce(() => ["usuario", () => null])
+      .mockImplementationOnce(() => [
+        {
+          email: "usuario@gmail.com",
+          password: "usuario",
+        },
+        () => null,
+      ])
       .mockImplementationOnce(() => [false, () => null])
       .mockImplementation((x: any) => [x, stateMock]);
 
     render(<Login />);
   });
   it("Test Form Validation succeeded (ShowPassword)", async () => {
-    // DEVERIA TESTAR AQUI
     axios.get.mockImplementation(() =>
       Promise.resolve({
         data: [{ email: "usuario@gmail.com", password: "usuario" }],
@@ -68,8 +76,39 @@ describe("LoginPage", () => {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() => [true, () => null])
-      .mockImplementationOnce(() => ["usuario@gmail.com", () => null])
-      .mockImplementationOnce(() => ["usuario", () => null])
+      .mockImplementationOnce(() => [
+        {
+          email: "usuario@gmail.com",
+          password: "usuario",
+        },
+        () => null,
+      ])
+      .mockImplementationOnce(() => [true, () => null])
+      .mockImplementation((x: any) => [x, stateMock]);
+
+    render(<Login />);
+    // await act(async () => {
+    fireEvent.click(screen.getByTestId("login-button"));
+    // });
+    expect(screen.getByTestId("login-button")).toBeInTheDocument();
+  });
+  it("Test Form Validation succeeded (ShowPassword)", async () => {
+    axios.get.mockImplementation(() =>
+      Promise.resolve({
+        data: [{ email: "usuario@hotmail.com", password: "user123" }],
+      })
+    );
+    const stateMock = jest.fn();
+    jest
+      .spyOn(React, "useState")
+      .mockImplementationOnce(() => [true, () => null])
+      .mockImplementationOnce(() => [
+        {
+          email: "usuario@gmail.com",
+          password: "usuario",
+        },
+        () => null,
+      ])
       .mockImplementationOnce(() => [true, () => null])
       .mockImplementation((x: any) => [x, stateMock]);
 
@@ -85,8 +124,13 @@ describe("LoginPage", () => {
     jest
       .spyOn(React, "useState")
       .mockImplementationOnce(() => [true, () => null])
-      .mockImplementationOnce(() => ["usuario@gmail.com", () => null])
-      .mockImplementationOnce(() => ["usuario", () => null])
+      .mockImplementationOnce(() => [
+        {
+          email: "usuario@gmail.com",
+          password: "usuario",
+        },
+        () => null,
+      ])
       .mockImplementationOnce(() => [true, () => null])
       .mockImplementation((x: any) => [x, stateMock]);
 
