@@ -24,6 +24,10 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
   const [isEmailValid, setIsEmailValid] = useState(true);
 
   const [snackbarOptions, setSnackbarOptions] = useState<SnackbarOptions>({
@@ -40,8 +44,8 @@ const Login = () => {
 
   useEffect(() => {
     let emailRegex = /\S+@\S+\.\S+/;
-    email && setIsEmailValid(emailRegex.test(email));
-  }, [email]);
+    values.email && setIsEmailValid(emailRegex.test(values.email));
+  }, [values.email]);
 
   useEffect(() => {
     !isEmailValid &&
@@ -59,7 +63,8 @@ const Login = () => {
   const handleLogin = () => {
     userServices.login().then(({ data }) => {
       const { password, id, ...userFound } = data.filter(
-        (user: User) => user.email === email && user.password === password
+        (user: User) =>
+          user.email === values.email && user.password === values.password
       );
       if (userFound[0]) {
         Storage.set("authenticatedUser", userFound);
@@ -99,8 +104,11 @@ const Login = () => {
             type="email"
             error={!isEmailValid}
             label="Email"
-            value={email}
-            onChange={({ target: { value } }) => setEmail(value)}
+            value={values.email}
+            onChange={({ target: { value } }) =>
+              setValues({ ...values, email: value })
+            }
+            // onChange={({ target: { value } }) => setEmail(value)}
             variant="outlined"
           />
           <OutlinedInput
@@ -109,8 +117,11 @@ const Login = () => {
             placeholder="Senha"
             type={showPassword ? "text" : "password"}
             sx={{ marginTop: "28px" }}
-            value={password}
-            onChange={({ target: { value } }) => setPassword(value)}
+            value={values.password}
+            onChange={({ target: { value } }) =>
+              setValues({ ...values, password: value })
+            }
+            // onChange={({ target: { value } }) => setPassword(value)}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton

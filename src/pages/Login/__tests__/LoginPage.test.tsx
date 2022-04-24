@@ -1,18 +1,21 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import axios from "axios";
 import React from "react";
 import { act } from "react-dom/test-utils";
 import CustomSnackbar from "../../../components/CustomSnackbar/CustomSnackbar";
+import { userServices } from "../../../services/User";
 import Login from "../LoginPage";
 
-import { userServices } from "../../../services/User";
-
+const nock = require("nock");
 const mockedUsedNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
   useNavigate: () => mockedUsedNavigate,
 }));
+
+jest.mock("axios");
 
 describe("LoginPage", () => {
   beforeEach(() => {
@@ -55,6 +58,12 @@ describe("LoginPage", () => {
     render(<Login />);
   });
   it("Test Form Validation succeeded (ShowPassword)", async () => {
+    // DEVERIA TESTAR AQUI
+    axios.get.mockImplementation(() =>
+      Promise.resolve({
+        data: [{ email: "usuario@gmail.com", password: "usuario" }],
+      })
+    );
     const stateMock = jest.fn();
     jest
       .spyOn(React, "useState")

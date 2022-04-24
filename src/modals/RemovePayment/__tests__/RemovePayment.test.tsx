@@ -1,9 +1,18 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "React";
 import RemovePayment from "../RemovePayment";
+import axios from "axios";
+
+jest.mock("axios");
 
 describe("AddPaymentModal", () => {
   it("edit scenario (All Data pre-loaded)", () => {
+    axios.delete.mockImplementation(() =>
+      Promise.resolve({
+        data: {},
+      })
+    );
+
     const handleCloseMock = jest.fn();
     const dataMock = {
       id: "1",
@@ -29,6 +38,12 @@ describe("AddPaymentModal", () => {
   });
 
   it("edit scenario (All Data pre-loaded)", () => {
+    axios.delete.mockImplementation(() =>
+      Promise.resolve({
+        data: {},
+      })
+    );
+
     const handleCloseMock = jest.fn();
     const dataMock = {
       id: "",
