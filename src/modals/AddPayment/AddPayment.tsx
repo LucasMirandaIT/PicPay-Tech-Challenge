@@ -58,7 +58,7 @@ const AddPayment = ({ open, data, handleClose }: ModalPayments) => {
           handleClose(event, "Pagamento atualizado com sucesso!");
         });
     } else {
-      paymentsServices.createPayment(values).then((res) => {
+      paymentsServices.createPayment({...values, isPaid: false}).then((res) => {
         handleClose(event, "Pagamento criado com sucesso!");
       });
     }

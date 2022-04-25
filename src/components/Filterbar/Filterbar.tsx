@@ -221,9 +221,9 @@ const FilterBar = ({ handleFilters }: FilterBarProps) => {
               label="Status"
               onChange={handleChange("isPaid")}
             >
-              <MenuItem hidden value=""></MenuItem>
-              <MenuItem value="true">Paid</MenuItem>
-              <MenuItem value="false">Not Paid</MenuItem>
+              <MenuItem hidden disabled value=""></MenuItem>
+              <MenuItem value="true">Pago</MenuItem>
+              <MenuItem value="false">Não Pago</MenuItem>
             </Select>
           </FormControl>
           <div className="buttons-container">
